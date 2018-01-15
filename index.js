@@ -6,14 +6,17 @@ const resetMathRandom = () => {
 };
 
 // randomMock implementation
-const randomMock = (values) => {
+const randomMock = (returnValues) => {
+  if (!Array.isArray(returnValues)) {
+    return () => returnValues;
+  }
   let index = 0;
 
   return () => {
-    if (index >= values.length) {
+    if (index >= returnValues.length) {
       index = 0;
     }
-    return values[index++];
+    return returnValues[index++];
   };
 };
 
