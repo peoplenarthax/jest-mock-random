@@ -5,6 +5,9 @@ module.exports = {
         'browser': false,
         'es6': true,
     },
+    'rules': {
+      'no-plusplus': 0,
+    },
     'overrides': [
         {
             'files': [
@@ -16,6 +19,7 @@ module.exports = {
             },
             'rules': {
                 'func-names': ['error', 'as-needed'],
+
             }
         }
     ]
