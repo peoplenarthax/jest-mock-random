@@ -1,11 +1,9 @@
 // Warning in case the passed value is not a decimal
 // eslint-disable-next-line no-console
-const showWarning = () => console.warn('The value that you are using to mock random is not a decimal and it is breaking the real contract');
+const showWarning = () => console.warn('WARNING: The value that you are using to mock random is not a decimal and it is breaking the real contract');
 const isDecimal = number => !Number.isNaN(number) && number % 1 !== 0;
 const warnBrokenContract = (values) => {
-  if (!Array.isArray(values)) {
-    if (!isDecimal(values)) { showWarning(); }
-  } else if (!values.map(parseFloat).every(isDecimal)) {
+  if (!values.map(parseFloat).every(isDecimal)) {
     showWarning();
   }
 };
@@ -18,24 +16,24 @@ const resetMathRandom = () => {
 
 // randomMock implementation
 const randomMock = (returnValues) => {
+  let arrayOfValues = returnValues;
   if (!Array.isArray(returnValues)) {
-    const number = parseFloat(returnValues);
-    return () => {
-      warnBrokenContract(number);
-      return number;
-    };
+    arrayOfValues = [returnValues];
   }
+
   let index = 0;
 
   return () => {
-    warnBrokenContract(returnValues);
-    if (index >= returnValues.length) {
+    if (arrayOfValues.length === 0) {
+      throw new TypeError('The value list must contain some value');
+    }
+    warnBrokenContract(arrayOfValues);
+    if (index >= arrayOfValues.length) {
       index = 0;
     }
-    return returnValues[index++];
+    return arrayOfValues[index++];
   };
 };
-
 // Through a copy of the global Math object we mock the random method
 const createMathRandomMock = (values) => {
   const mockMath = Object.create(global.Math);

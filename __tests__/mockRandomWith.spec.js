@@ -22,6 +22,14 @@ describe('mockRandomWith', () => {
       expect(spy).not.toBeCalled();
     });
   });
+  describe('Corner case', () => {
+    mockRandomWith([]);
+    it('throw Error in case we pass an empty array', () => {
+      const actual = () => Math.random();
+
+      expect(actual).toThrow(TypeError);
+    });
+  });
   describe('Singular value', () => {
     mockRandomWith(0.1);
     it('returns always the same value in case of passing a singular integer', () => {
