@@ -14,6 +14,13 @@ describe('mockRandomWith', () => {
 
       expect(actual).toEqual([0.1, 0.2, 0.3, 0.1, 0.2, 0.3]);
     });
+    it('does not log a warning if all the values of the array are valid', () => {
+      const spy = jest.spyOn(global.console, 'warn');
+
+      Math.random();
+
+      expect(spy).not.toBeCalled();
+    });
   });
   describe('Singular value', () => {
     mockRandomWith(0.1);
@@ -21,6 +28,43 @@ describe('mockRandomWith', () => {
       const actual = [...new Array(3)].map(() => Math.random());
 
       expect(actual).toEqual([0.1, 0.1, 0.1]);
+    });
+    it('does not log a warning if value is correct', () => {
+      const spy = jest.spyOn(global.console, 'warn');
+
+      Math.random();
+
+      expect(spy).not.toBeCalled();
+    });
+  });
+  describe('Invalid types warning with single value', () => {
+    mockRandomWith(45);
+    it('logs a warning if the singular value passed is not a decimal', () => {
+      const spy = jest.spyOn(global.console, 'warn');
+
+      Math.random();
+
+      expect(spy).toBeCalled();
+    });
+  });
+  describe('Invalid types warning with array of values', () => {
+    mockRandomWith([1, 0.5, 'a']);
+    it('logs a warning if any value of the passed array is not a decimal', () => {
+      const spy = jest.spyOn(global.console, 'warn');
+
+      Math.random();
+
+      expect(spy).toBeCalled();
+    });
+  });
+  describe('Integration with Jest', () => {
+    let b;
+    mockRandomWith(0.2);
+    beforeAll(() => { b = [1]; });
+    it('allows other calls to beforeAll', () => {
+      const actual = [...b, Math.random()];
+
+      expect(actual).toEqual([1, 0.2]);
     });
   });
 });
