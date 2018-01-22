@@ -1,5 +1,6 @@
 const mockRandomWith = require('../index');
 
+afterEach(() => jest.restoreAllMocks()); // avoid mock by spy too leak between test
 describe('mockRandomWith', () => {
   mockRandomWith([0.1, 0.2, 0.3]);
   describe('Array of values', () => {
@@ -53,6 +54,16 @@ describe('mockRandomWith', () => {
       Math.random();
 
       expect(spy).toBeCalled();
+    });
+  });
+  describe('Value 0', () => {
+    mockRandomWith(0);
+    it('does not logs a warning if the value is 0', () => {
+      const spy = jest.spyOn(global.console, 'warn');
+
+      Math.random();
+
+      expect(spy).not.toBeCalled();
     });
   });
   describe('Invalid types warning with array of values', () => {

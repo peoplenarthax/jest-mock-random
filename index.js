@@ -1,7 +1,7 @@
 // Warning in case the passed value is not a decimal
 // eslint-disable-next-line no-console
 const showWarning = () => console.warn('WARNING: The value that you are using to mock random is not a decimal and it is breaking the real contract');
-const isDecimal = number => !Number.isNaN(number) && number % 1 !== 0;
+const isDecimal = number => number === 0 || (!Number.isNaN(number) && number % 1 !== 0);
 const warnBrokenContract = (values) => {
   if (!values.map(parseFloat).every(isDecimal)) {
     showWarning();
