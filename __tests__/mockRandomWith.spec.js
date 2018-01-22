@@ -1,10 +1,14 @@
-const mockRandomWith = require('../index');
+const {
+  mockRandomForEach,
+  mockRandom,
+  resetMockRandom,
+} = require('../index');
 
 afterEach(() => jest.restoreAllMocks()); // avoid mock by spy too leak between test
-describe('mockRandomWith', () => {
-  mockRandomWith([0.1, 0.2, 0.3]);
+describe('mockRandomForEach', () => {
+  mockRandomForEach([0.1, 0.2, 0.3]);
   describe('Array of values', () => {
-    mockRandomWith([0.1, 0.2, 0.3]);
+    mockRandomForEach([0.1, 0.2, 0.3]);
     it('mocks the Math random calls with the given array', () => {
       const actual = [...new Array(3)].map(() => Math.random());
 
@@ -24,7 +28,7 @@ describe('mockRandomWith', () => {
     });
   });
   describe('Corner case', () => {
-    mockRandomWith([]);
+    mockRandomForEach([]);
     it('throw Error in case we pass an empty array', () => {
       const actual = () => Math.random();
 
@@ -32,7 +36,7 @@ describe('mockRandomWith', () => {
     });
   });
   describe('Singular value', () => {
-    mockRandomWith(0.1);
+    mockRandomForEach(0.1);
     it('returns always the same value in case of passing a singular integer', () => {
       const actual = [...new Array(3)].map(() => Math.random());
 
@@ -47,7 +51,7 @@ describe('mockRandomWith', () => {
     });
   });
   describe('Invalid types warning with single value', () => {
-    mockRandomWith(45);
+    mockRandomForEach(45);
     it('logs a warning if the singular value passed is not a decimal', () => {
       const spy = jest.spyOn(global.console, 'warn');
 
@@ -57,7 +61,7 @@ describe('mockRandomWith', () => {
     });
   });
   describe('Value 0', () => {
-    mockRandomWith(0);
+    mockRandomForEach(0);
     it('does not logs a warning if the value is 0', () => {
       const spy = jest.spyOn(global.console, 'warn');
 
@@ -67,7 +71,7 @@ describe('mockRandomWith', () => {
     });
   });
   describe('Invalid types warning with array of values', () => {
-    mockRandomWith([1, 0.5, 'a']);
+    mockRandomForEach([1, 0.5, 'a']);
     it('logs a warning if any value of the passed array is not a decimal', () => {
       const spy = jest.spyOn(global.console, 'warn');
 
@@ -78,12 +82,37 @@ describe('mockRandomWith', () => {
   });
   describe('Integration with Jest', () => {
     let b;
-    mockRandomWith(0.2);
+    mockRandomForEach(0.2);
     beforeAll(() => { b = [1]; });
     it('allows other calls to beforeAll', () => {
       const actual = [...b, Math.random()];
 
       expect(actual).toEqual([1, 0.2]);
+    });
+  });
+  describe('Individual test mock random', () => {
+    afterEach(() => resetMockRandom());
+    it('mock random for a particular test', () => {
+      mockRandom([0, 0.1, 0.2]);
+
+      const actual = [...new Array(3)].map(() => Math.random());
+
+      expect(actual).toEqual([0, 0.1, 0.2]);
+    });
+    it('mocks individually each test where is declared', () => {
+      mockRandom(0.2);
+
+      const actual = [...new Array(3)].map(() => Math.random());
+
+      expect(actual).toEqual([0.2, 0.2, 0.2]);
+    });
+    it('resets the mock on resetMockRandom', () => {
+      mockRandom(0.2);
+
+      resetMockRandom();
+      const actual = [...new Array(3)].map(() => Math.random());
+
+      expect(actual).not.toEqual([0.2, 0.2, 0.2]);
     });
   });
 });

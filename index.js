@@ -10,7 +10,7 @@ const warnBrokenContract = (values) => {
 
 // Copy the global Math object in order to reset it
 const mathCopy = Object.create(global.Math);
-const resetMathRandom = () => {
+const resetMockRandom = () => {
   global.Math = mathCopy;
 };
 
@@ -35,23 +35,27 @@ const randomMock = (returnValues) => {
   };
 };
 // Through a copy of the global Math object we mock the random method
-const createMathRandomMock = (values) => {
+const mockRandom = (values) => {
   const mockMath = Object.create(global.Math);
   mockMath.random = randomMock(values);
   global.Math = mockMath;
 };
 
 // When mockRandomWith is called it create the mock beforeEach and reset it after
-const mockRandomWith = (valuesArray) => {
+const mockRandomForEach = (valuesArray) => {
   // eslint-disable-next-line no-undef
   beforeEach(() => {
-    createMathRandomMock(valuesArray);
+    mockRandom(valuesArray);
   });
   // eslint-disable-next-line no-undef
   afterEach(() => {
-    resetMathRandom();
+    resetMockRandom();
   });
 };
 
 
-module.exports = mockRandomWith;
+module.exports = {
+  mockRandomForEach,
+  mockRandom,
+  resetMockRandom,
+};
