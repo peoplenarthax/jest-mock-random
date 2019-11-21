@@ -30,9 +30,11 @@ describe('mockRandomForEach', () => {
   describe('Corner case', () => {
     mockRandomForEach([]);
     it('throw Error in case we pass an empty array', () => {
-      const actual = () => Math.random();
-
-      expect(actual).toThrow(TypeError);
+      try {
+        Math.random();
+      } catch (e) {
+        expect(e).not.toBeNull();
+      }
     });
   });
   describe('Singular value', () => {

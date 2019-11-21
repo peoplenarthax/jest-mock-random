@@ -14,7 +14,7 @@
   "license": "MIT",
   "scripts": {
     "precommit": "lint-staged",
-    "test": "jest  **.js",
+    "test": "jest  **/*.js",
     "test-watch": "jest --watch",
     "lint": "eslint \"index.js\" \"__tests__/**/*.js\""
   },
@@ -31,14 +31,12 @@
     "random"
   ],
   "devDependencies": {
-    "eslint": "^4.15.0",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-plugin-import": "^2.5.0",
-    "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.5.1",
-    "husky": "^0.14.1",
-    "jest": "^22.1.1",
-    "jest-cli": "^22.0.4",
-    "lint-staged": "^6.0.0"
+    "eslint": "^6.6.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.18.2",
+    "husky": "^3.1.0",
+    "jest": "^24.9.0",
+    "jest-cli": "^24.9.0",
+    "lint-staged": "^9.4.3"
   }
 }
