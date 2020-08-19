@@ -3,6 +3,7 @@
   "version": "1.0.3",
   "description": "Math.random() as a deterministic jest mock function",
   "main": "index.js",
+  "types": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/peoplenarthax/jest-mock-random.git"
