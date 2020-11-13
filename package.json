@@ -39,5 +39,9 @@
     "jest": "^24.9.0",
     "jest-cli": "^24.9.0",
     "lint-staged": "^9.4.3"
-  }
+  },
+  "files": [
+    "index.js",
+    "index.d.ts"
+  ]
 }
