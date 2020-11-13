@@ -1,3 +1,4 @@
+[![npm version](https://badge.fury.io/js/jest-mock-random.svg)](https://badge.fury.io/js/jest-mock-random) [![Known Vulnerabilities](https://snyk.io/test/github/peoplenarthax/jest-mock-random/badge.svg?targetFile=package.json)](https://snyk.io/test/github/peoplenarthax/jest-mock-random?targetFile=package.json) ![npm bundle size](https://img.shields.io/bundlephobia/min/jest-mock-random)
 # jest-mock-random
 
 `Math.random()` as deterministic [Jest mock function](https://facebook.github.io/jest/docs/mock-functions.html).
